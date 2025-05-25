@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-const TuyaWebsocket = require('../../dist').default;
+const TuyaWebsocket = require('../dist').default;
 
 const client = new TuyaWebsocket({
   accessId: '9kvy387xyr9u5d4kvy93',
