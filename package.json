@@ -19,7 +19,7 @@
     "deploy": "npm run patch && npm publish",
     "prepublishOnly": "npm run test && npm run build",
     "jest:cov": "jest --coverage",
-    "example": "npm run build && node ./example/index.js"
+    "example": "npm run build && node ./src/example/index.js"
   },
   "keywords": [
     "tuya",
