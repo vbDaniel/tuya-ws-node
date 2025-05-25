@@ -5,7 +5,7 @@ import WebSocket from 'ws';
 import { TUYA_PASULAR_ENV, getTuyaEnvConfig, TuyaRegionConfigEnum } from './config';
 import { getTopicUrl, buildQuery, buildPassword, decrypt } from './utils';
 
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, ListTablesCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 type LoggerLevel = 'INFO' | 'ERROR';
@@ -60,6 +60,10 @@ class TuyaMessageSubscribeWebsocket {
       region: 'sa-east-1',
     });
     this.ddbClient = DynamoDBDocumentClient.from(ddbClient);
+
+    // const listTablesCommand = new ListTablesCommand();
+    // const tables = this.ddbClient.send(listTablesCommand);
+    // console.log('DynamoDB Tables:', tables);
   }
 
   public start() {
@@ -224,7 +228,7 @@ class TuyaMessageSubscribeWebsocket {
 
     for (const status of statusArray) {
       const params = {
-        TableName: 'TuyaDeviceMetrics',
+        TableName: 'TuyaDeviceData',
         Item: {
           deviceId: deviceId,
           code: status.code,
@@ -236,7 +240,8 @@ class TuyaMessageSubscribeWebsocket {
       };
 
       try {
-        await this.ddbClient.send(new PutCommand(params));
+        const response = await this.ddbClient.send(new PutCommand(params));
+        console.log('RESPONSE:', response);
         this.logger('INFO', `Salvo no DynamoDB: ${deviceId} ${status.code}=${status.value}`);
       } catch (error) {
         this.logger('ERROR', 'Erro ao salvar no DynamoDB:', error);

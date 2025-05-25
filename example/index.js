@@ -6,7 +6,7 @@ const client = new TuyaWebsocket({
   accessId: '9kvy387xyr9u5d4kvy93',
   accessKey: '3a0c38e4f7024b65a4d30e5565fba660',
   url: TuyaWebsocket.URL.US,
-  env: TuyaWebsocket.env.PROD,
+  env: TuyaWebsocket.env.TEST,
   maxRetryTimes: 100,
 });
 
